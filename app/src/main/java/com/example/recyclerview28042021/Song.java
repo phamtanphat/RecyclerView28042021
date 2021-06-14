@@ -69,7 +69,6 @@ public class Song {
                 new Song("Sài Gòn Hôm Nay Mưa",R.drawable.hinh_sai_gon_hom_nay_mua,255000 ,"JSOL, Hoàng Duyên"),
                 new Song("LayLaLay",R.drawable.hinh_lay_la_lay,295000 ,"Jack (J97)"),
                 new Song("Trả Người Về Tự Do",R.drawable.hinh_tra_nguoi_ve_tu_do,292000 ,"Minh Tuyết, Tăng Phúc")
-
         ));
     }
 
