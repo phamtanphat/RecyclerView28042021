@@ -47,14 +47,6 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
         String resultSeconds = seconds < 10 ? "0"+seconds : String.valueOf(seconds);
         holder.tvTotalTime.setText(resultMinutes + ":"+resultSeconds );
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mOnItemClickSong != null){
-                    mOnItemClickSong.onClick(holder.itemView,song , position);
-                }
-            }
-        });
     }
 
     @Override
@@ -79,9 +71,18 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
             tvTotalTime = itemView.findViewById(R.id.textViewTotalTime);
             imgSetting = itemView.findViewById(R.id.imageSettings);
 
+            imgSetting.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mOnItemClickSong != null){
+                        mOnItemClickSong.onClick(view , getAdapterPosition());
+                    }
+                }
+            });
+
         }
     }
-    public void  setOnItemClickSong(OnItemClickSong onItemClickSong){
+    public void setOnItemClickSong(OnItemClickSong onItemClickSong){
         this.mOnItemClickSong = onItemClickSong;
     }
 }
