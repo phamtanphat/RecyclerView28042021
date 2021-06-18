@@ -33,26 +33,19 @@ public class MainActivity extends AppCompatActivity {
         mSongAdapter.setOnItemClickSong(new OnItemClickSong() {
             @Override
             public void onClick(View v, int position) {
-                PopupMenu popupMenu = new PopupMenu(MainActivity.this, v);
-                popupMenu.inflate(R.menu.menu_popup_song);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        switch (menuItem.getItemId()){
-                            case R.id.menuItemUpdate :
-                                mSongList.get(position).setName(mSongList.get(position).getName() + " updated");
-                                mSongAdapter.notifyItemChanged(position);
-                                break;
-                            case R.id.menuItemDelete :
-                                mSongList.remove(mSongList.get(position));
-                                mSongAdapter.notifyItemRemoved(position);
-                                break;
-                        }
-                        return true;
-                    }
-                });
 
-                popupMenu.show();
+            }
+
+            @Override
+            public void onUpdate(int position) {
+                mSongList.get(position).setName(mSongList.get(position).getName() + " updated");
+                mSongAdapter.notifyItemChanged(position);
+            }
+
+            @Override
+            public void onDelete(int position) {
+                mSongList.remove(mSongList.get(position));
+                mSongAdapter.notifyItemRemoved(position);
             }
         });
     }

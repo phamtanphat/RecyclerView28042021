@@ -2,10 +2,12 @@ package com.example.recyclerview28042021;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +32,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     public SongViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mContext = parent.getContext();
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.layout_item_song,parent,false);
+        View view = layoutInflater.inflate(R.layout.layout_item_song, parent, false);
         return new SongViewHolder(view);
     }
 
@@ -43,9 +45,9 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
 
         long minutes = (song.getTime() / 60000);
         long seconds = (song.getTime() / 1000) % 60;
-        String resultMinutes = minutes < 10 ? "0"+minutes : String.valueOf(minutes);
-        String resultSeconds = seconds < 10 ? "0"+seconds : String.valueOf(seconds);
-        holder.tvTotalTime.setText(resultMinutes + ":"+resultSeconds );
+        String resultMinutes = minutes < 10 ? "0" + minutes : String.valueOf(minutes);
+        String resultSeconds = seconds < 10 ? "0" + seconds : String.valueOf(seconds);
+        holder.tvTotalTime.setText(resultMinutes + ":" + resultSeconds);
 
     }
 
@@ -74,15 +76,44 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
             imgSetting.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (mOnItemClickSong != null){
-                        mOnItemClickSong.onClick(view , getAdapterPosition());
+                    PopupMenu popupMenu = new PopupMenu(itemView.getContext(), view);
+                    popupMenu.inflate(R.menu.menu_popup_song);
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            switch (menuItem.getItemId()) {
+                                case R.id.menuItemUpdate:
+                                    if (mOnItemClickSong != null) {
+                                        mOnItemClickSong.onUpdate(getAdapterPosition());
+                                    }
+                                    break;
+                                case R.id.menuItemDelete:
+                                    if (mOnItemClickSong != null) {
+                                        mOnItemClickSong.onDelete(getAdapterPosition());
+                                    }
+                                    break;
+                            }
+                            return true;
+                        }
+                    });
+                    popupMenu.show();
+
+                }
+            });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mOnItemClickSong != null) {
+                        mOnItemClickSong.onClick(view, getAdapterPosition());
                     }
                 }
             });
 
         }
     }
-    public void setOnItemClickSong(OnItemClickSong onItemClickSong){
+
+    public void setOnItemClickSong(OnItemClickSong onItemClickSong) {
         this.mOnItemClickSong = onItemClickSong;
     }
 }
